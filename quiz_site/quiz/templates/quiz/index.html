@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+
+{% if all_quiz_list %}
+    <ul>
+    {% for quiz in all_quiz_list %}
+        <li><a href="{% url 'quiz:single_quiz' quiz.id %}">{{ quiz.quiz_title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No quizzes are available.</p>
+{% endif %}
+
+
+</body>
+</html>

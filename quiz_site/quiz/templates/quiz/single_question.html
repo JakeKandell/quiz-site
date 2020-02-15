@@ -5,18 +5,23 @@
     <title>Single Question</title>
 </head>
 <body>
+
     <h2>{{ current_question.question_text }}</h2>
 
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <form action="{% url 'quiz:vote' question.id %}" method="post">
+    <form action="{% url 'quiz:vote' quiz.id current_question.id %}" method="post">
     {% csrf_token %}
+
     {% for choice in current_question.choice_set.all %}
         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
         <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
     {% endfor %}
-    <input type="submit" value="Vote">
+
+    <input type="submit" value="Submit">
+
     </form>
+
 
 </body>
 </html>

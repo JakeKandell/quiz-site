@@ -7,7 +7,7 @@ from .models import Quiz, Question, Choice
 
 # Create your views here.
 
-# All quizzes
+# index page of all quizzes
 def index(request):
     all_quiz_list = Quiz.objects.all()
     context = {
@@ -17,10 +17,11 @@ def index(request):
     return render(request, 'quiz/index.html', context)
 
 
-# Specific quiz
+# specific quiz splash screen
 def single_quiz(request, quiz_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
 
+    # resets accuracy info to 0
     request.session["num_correct"] = 0
     request.session["num_wrong"] = 0
 
@@ -31,10 +32,10 @@ def single_quiz(request, quiz_id):
     return render(request, 'quiz/single_quiz.html', context)
 
 
-# Specific question
+# specific question view
 def single_question(request, quiz_id, question_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
-    current_question = quiz.question_set.get(pk=question_id)
+    current_question = quiz.question_set.get(question_num=question_id)
 
     # Checks if currently on last question of quiz
     last_question_check = False
@@ -56,13 +57,15 @@ def single_question(request, quiz_id, question_id):
     return render(request, 'quiz/single_question.html', context)
 
 
+# view that receives info from user's answer to question and determines correctness
 def vote(request, quiz_id, question_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
-    current_question = quiz.question_set.get(pk=question_id)
+    current_question = quiz.question_set.get(question_num=question_id)
+
     try:
         selected_choice = current_question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
-        # Redisplay the question voting form.
+        # Redisplay the question voting form
         return render(request, 'quiz/single_question.html', {
             'quiz': quiz,
             'current_question': current_question,
@@ -70,10 +73,7 @@ def vote(request, quiz_id, question_id):
         })
     else:
 
-        # finds which choice is the correct answer
-        #for choice in current_question.choice_set.all():
-         #   if choice.correct == True:
-          #      correct_answer = choice
+        # get which choice is the correct answer
         correct_answer = current_question.choice_set.get(correct=True)
 
         if selected_choice == correct_answer:
@@ -83,11 +83,6 @@ def vote(request, quiz_id, question_id):
             print("You are wrong")
             request.session["num_wrong"] += 1
 
-
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.    last_question_check = False
-
         # checks if next page should be results or next question
         if question_id == (len(quiz.question_set.all())):
             return HttpResponseRedirect(reverse('quiz:results', args=(quiz.id,)))
@@ -95,8 +90,7 @@ def vote(request, quiz_id, question_id):
             return HttpResponseRedirect(reverse('quiz:single_question', args=(quiz.id, question_id+1,)))
 
 
-
-# Quiz results
+# quiz results page
 def results(request, quiz_id):
     context = {
         'num_correct': request.session["num_correct"],

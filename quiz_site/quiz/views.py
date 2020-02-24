@@ -4,6 +4,8 @@ from django.urls import reverse
 
 from .models import Quiz, Question, Choice
 
+from .forms import CreateQuizForm
+
 
 # Create your views here.
 
@@ -88,6 +90,38 @@ def vote(request, quiz_id, question_id):
             return HttpResponseRedirect(reverse('quiz:results', args=(quiz.id,)))
         else :
             return HttpResponseRedirect(reverse('quiz:single_question', args=(quiz.id, question_id+1,)))
+
+
+# view that re
+def create_quiz(request):
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = CreateQuizForm(request.POST)
+
+        # Check if the form is valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            quiz_name = form.cleaned_data['quiz_name']
+            num_questions = form.cleaned_data['num_questions']
+
+            new_quiz = Quiz(quiz_title=quiz_name, num_questions=num_questions)
+            new_quiz.save()
+
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse('quiz:index'))
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        form = CreateQuizForm()
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'quiz/create_quiz.html', context)
 
 
 # quiz results page

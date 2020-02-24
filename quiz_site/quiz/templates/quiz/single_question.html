@@ -3,10 +3,11 @@
 <head>
     {% load static %}
 
-    <link rel="stylesheet" type="text/css" href="{% static 'quiz/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'quiz/single_question.css' %}">
 
     <meta charset="UTF-8">
     <title>Single Question</title>
+
 </head>
 <body>
 
@@ -19,16 +20,12 @@
     <form action="{% url 'quiz:vote' quiz.id current_question.question_num %}" method="post">
     {% csrf_token %}
 
-        <div>
+        {% for choice in current_question.choice_set.all %}
 
-            {% for choice in current_question.choice_set.all %}
-                <label>
-                    <input class="option-input radio" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-                    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-                </label>
-            {% endfor %}
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
 
-        </div>
+        {% endfor %}
 
     <input type="submit" value="Submit">
 

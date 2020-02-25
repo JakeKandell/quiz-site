@@ -42,9 +42,11 @@ def single_question(request, quiz_id, question_id):
     current_question = quiz.question_set.get(question_num=question_id)
 
     # Checks if currently on last question of quiz
+    next_or_submit = "Next"
     last_question_check = False
     if question_id == (len(quiz.question_set.all())):
         last_question_check = True
+        next_or_submit = "Submit"
 
     next_question_id = question_id+1
 
@@ -55,7 +57,8 @@ def single_question(request, quiz_id, question_id):
         'all_choices': all_choices,
         'quiz': quiz,
         'next_question_id': next_question_id,
-        'last_question_check': last_question_check
+        'last_question_check': last_question_check,
+        'next_or_submit': next_or_submit
     }
 
     return render(request, 'quiz/single_question.html', context)
@@ -138,6 +141,9 @@ def create_quiz(request):
 # view for create quiz page
 def create_question(request, quiz_id, question_id):
 
+    # gets current quiz
+    quiz = Quiz.objects.get(pk=quiz_id)
+
     # If this is a POST request then process the Form data
     if request.method == 'POST':
 
@@ -162,9 +168,6 @@ def create_question(request, quiz_id, question_id):
             choice4 = form.cleaned_data["choice4_text"]
             choice4_correctness = form.cleaned_data["choice4_correctness"]
 
-            # gets current quiz
-            quiz = Quiz.objects.get(pk=quiz_id)
-
             # creates question in quiz
             question = Question(quiz=quiz, question_text=question_text, question_num=question_id)
             question.save()
@@ -185,9 +188,16 @@ def create_question(request, quiz_id, question_id):
     else:
         form = CreateQuestionForm()
 
+    if question_id == quiz.num_questions:
+        next_submit = "Submit"
+    else :
+        next_submit = "Next"
+
     context = {
         'form': form,
         'question_num': question_id,
+        'next_submit': next_submit,
+
     }
 
     return render(request, 'quiz/create_question.html', context)

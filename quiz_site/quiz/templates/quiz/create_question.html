@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Question</title>
+</head>
+<body>
+    <h1>Create Question {{ question_num }}</h1>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+    <input type="submit" value="Submit">
+    </form>
+
+</body>
+
+</body>
+</html>

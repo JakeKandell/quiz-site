@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from .models import Quiz, Question, Choice
 
-from .forms import CreateQuizForm
+from .forms import CreateQuizForm, CreateQuestionForm
 
 
 # Create your views here.
@@ -22,6 +22,7 @@ def index(request):
 # specific quiz splash screen
 def single_quiz(request, quiz_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
+    num_questions = len(quiz.question_set.all())
 
     # resets accuracy info to 0
     request.session["num_correct"] = 0
@@ -29,6 +30,7 @@ def single_quiz(request, quiz_id):
 
     context = {
         'quiz': quiz,
+        'num_questions': num_questions,
     }
 
     return render(request, 'quiz/single_quiz.html', context)
@@ -92,7 +94,16 @@ def vote(request, quiz_id, question_id):
             return HttpResponseRedirect(reverse('quiz:single_question', args=(quiz.id, question_id+1,)))
 
 
-# view that re
+# quiz results page
+def results(request, quiz_id):
+    context = {
+        'num_correct': request.session["num_correct"],
+        'num_wrong': request.session["num_wrong"],
+    }
+    return render(request, 'quiz/results.html', context)
+
+
+# view for create quiz page
 def create_quiz(request):
 
     # If this is a POST request then process the Form data
@@ -111,7 +122,7 @@ def create_quiz(request):
             new_quiz.save()
 
             # redirect to a new URL:
-            return HttpResponseRedirect(reverse('quiz:index'))
+            return HttpResponseRedirect(reverse('quiz:create_question', args=(new_quiz.id, 1,)))
 
     # If this is a GET (or any other method) create the default form.
     else:
@@ -124,10 +135,59 @@ def create_quiz(request):
     return render(request, 'quiz/create_quiz.html', context)
 
 
-# quiz results page
-def results(request, quiz_id):
+# view for create quiz page
+def create_question(request, quiz_id, question_id):
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = CreateQuestionForm(request.POST)
+
+        # Check if the form is valid:
+        if form.is_valid():
+
+            # process the data in form.cleaned_data as required
+            question_text = form.cleaned_data['question_text']
+
+            choice1 = form.cleaned_data["choice1_text"]
+            choice1_correctness = form.cleaned_data["choice1_correctness"]
+
+            choice2 = form.cleaned_data["choice2_text"]
+            choice2_correctness = form.cleaned_data["choice2_correctness"]
+
+            choice3 = form.cleaned_data["choice3_text"]
+            choice3_correctness = form.cleaned_data["choice3_correctness"]
+
+            choice4 = form.cleaned_data["choice4_text"]
+            choice4_correctness = form.cleaned_data["choice4_correctness"]
+
+            # gets current quiz
+            quiz = Quiz.objects.get(pk=quiz_id)
+
+            # creates question in quiz
+            question = Question(quiz=quiz, question_text=question_text, question_num=question_id)
+            question.save()
+
+            # creates choices for questions
+            question.choice_set.create(choice_text=choice1, correct=choice1_correctness)
+            question.choice_set.create(choice_text=choice2, correct=choice2_correctness)
+            question.choice_set.create(choice_text=choice3, correct=choice3_correctness)
+            question.choice_set.create(choice_text=choice4, correct=choice4_correctness)
+
+            # redirect to home if done or next create question page if not
+            if question_id == quiz.num_questions:
+                return HttpResponseRedirect(reverse('quiz:index'))
+            else:
+                return HttpResponseRedirect(reverse('quiz:create_question', args=(quiz_id, question_id+1,)))
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        form = CreateQuestionForm()
+
     context = {
-        'num_correct': request.session["num_correct"],
-        'num_wrong': request.session["num_wrong"],
+        'form': form,
+        'question_num': question_id,
     }
-    return render(request, 'quiz/results.html', context)
+
+    return render(request, 'quiz/create_question.html', context)

@@ -6,12 +6,12 @@
 </head>
 <body>
     <h1>Create Quiz</h1>
+
     <form action="" method="post">
         {% csrf_token %}
-        <table>
-        {{ form.as_table }}
-        </table>
+        {{ form.as_p }}
     <input type="submit" value="Submit">
     </form>
+
 </body>
 </html>

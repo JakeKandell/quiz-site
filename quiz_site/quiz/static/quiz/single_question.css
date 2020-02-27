@@ -68,6 +68,7 @@ body {
 /* Sets button appearance when hovered over */
 .radio-toolbar label:hover {
   background-color: #5e5d5d;
+  cursor: pointer;
 }
 
 /* Styles submit button */
@@ -87,6 +88,7 @@ body {
 /* Styles submit button when hovered over */
 .submit_button:hover {
     background-color: #2d9058;
+    cursor: pointer;
 }
 
 /* Styles submit button when clicked */

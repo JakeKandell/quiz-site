@@ -69,6 +69,11 @@ def vote(request, quiz_id, question_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
     current_question = quiz.question_set.get(question_num=question_id)
 
+    # checks if current question is last one
+    next_or_submit = "Next"
+    if question_id == (len(quiz.question_set.all())):
+        next_or_submit = "Submit"
+
     try:
         selected_choice = current_question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
@@ -77,6 +82,7 @@ def vote(request, quiz_id, question_id):
             'quiz': quiz,
             'current_question': current_question,
             'error_message': "You didn't select a choice.",
+            'next_or_submit': next_or_submit,
         })
     else:
 

@@ -11,25 +11,35 @@
 </head>
 <body>
 
-    <h2>{{ current_question.question_text }}</h2>
+    <div class="full_container">
 
-    {% if error_message %}
-        <p><strong>{{ error_message }}</strong></p>
-    {% endif %}
+        <h2 class="question_title">{{ current_question.question_text }}</h2>
 
-    <form action="{% url 'quiz:vote' quiz.id current_question.question_num %}" method="post">
-    {% csrf_token %}
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
 
-        {% for choice in current_question.choice_set.all %}
+        <form action="{% url 'quiz:vote' quiz.id current_question.question_num %}" method="post">
+        {% csrf_token %}
 
-            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+            <div class="radio-toolbar">
 
-        {% endfor %}
+                {% for choice in current_question.choice_set.all %}
 
-    <input type="submit" value={{ next_or_submit }}>
+                    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+                    <br>
+                    <br>
 
-    </form>
+                {% endfor %}
+
+            </div>
+
+        <input type="submit" class="submit_button" value={{ next_or_submit }}>
+
+        </form>
+
+    </div>
 
 </body>
 </html>

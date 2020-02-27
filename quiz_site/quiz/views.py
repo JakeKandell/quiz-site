@@ -105,9 +105,26 @@ def vote(request, quiz_id, question_id):
 
 # quiz results page
 def results(request, quiz_id):
+    num_correct = request.session["num_correct"]
+    num_wrong = request.session["num_wrong"]
+
+    total_questions = num_correct+num_wrong
+
+    # formats accuracy as % with no decimal digits
+    accuracy = num_correct/(total_questions)
+
+    accuracy_over_75 = False
+    if accuracy >= .75:
+        accuracy_over_75 = True
+
+    accuracy_formatted = "{:.0%}".format(accuracy)
+
     context = {
-        'num_correct': request.session["num_correct"],
-        'num_wrong': request.session["num_wrong"],
+        'num_correct': num_correct,
+        'num_wrong': num_wrong,
+        'accuracy_over_75': accuracy_over_75,
+        'accuracy_formatted': accuracy_formatted,
+        'total_questions': total_questions,
     }
     return render(request, 'quiz/results.html', context)
 

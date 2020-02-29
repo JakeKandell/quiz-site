@@ -1,22 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'quiz/index.css' %}">
+
     <meta charset="UTF-8">
     <title>Index</title>
 </head>
 <body>
 
-{% if all_quiz_list %}
-    <ul>
-    {% for quiz in all_quiz_list %}
-        <li><a href="{% url 'quiz:single_quiz' quiz.id %}">{{ quiz.quiz_title }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No quizzes are available.</p>
-{% endif %}
+    <div class="area" >
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
 
-<a href="{% url 'quiz:create_quiz' %}">Create a new quiz</a>
+        <div class="top_container">
+            <h1 class="site_title">Quiz Site</h1>
+            <p class="site_description">Take a quiz or create your own!</p>
+            <a class="create_quiz" href="{% url 'quiz:create_quiz' %}">CREATE QUIZ</a>
+        </div>
+
+        {% if all_quiz_list %}
+
+            <section class="card_container">
+
+                    {% for quiz in all_quiz_list %}
+                        <a class="card" href="{% url 'quiz:single_quiz' quiz.id %}">
+                            <h3 class="quiz_title">{{ quiz.quiz_title }}</h3>
+                            <h6 class="num_questions">{{ quiz.num_questions }} Questions</h6>
+                        </a>
+
+                    {% endfor %}
+            </section>
+
+
+
+        {% else %}
+            <p>No quizzes are available.</p>
+        {% endif %}
+
+        <br>
+        <br>
+        <br>
+
+    </div>
 
 
 </body>

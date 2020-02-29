@@ -24,6 +24,9 @@ def single_quiz(request, quiz_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
     num_questions = len(quiz.question_set.all())
 
+    quiz.num_questions = num_questions
+    quiz.save()
+
     # resets accuracy info to 0
     request.session["num_correct"] = 0
     request.session["num_wrong"] = 0
@@ -105,6 +108,8 @@ def vote(request, quiz_id, question_id):
 
 # quiz results page
 def results(request, quiz_id):
+    quiz = get_object_or_404(Quiz, pk=quiz_id)
+
     num_correct = request.session["num_correct"]
     num_wrong = request.session["num_wrong"]
 
@@ -125,6 +130,7 @@ def results(request, quiz_id):
         'accuracy_over_75': accuracy_over_75,
         'accuracy_formatted': accuracy_formatted,
         'total_questions': total_questions,
+        'quiz': quiz,
     }
     return render(request, 'quiz/results.html', context)
 

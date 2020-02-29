@@ -1,0 +1,68 @@
+/* background for whole page */
+body {
+  background-color: #181818;
+}
+
+/* Centers quiz name and info and adds outline */
+.full_container {
+    text-align: center;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 125px;
+    background-color: #232323;
+    border-radius: 60px;
+    border: 10px solid #fff;
+    padding-bottom: 50px;
+}
+
+
+.quiz_title {
+    font-size: 150px;
+    color: white;
+    font-family: Roboto;
+    margin-bottom: 20px;
+    margin-top: 0px;
+    border-radius: 50px;
+    background-color: #3b3b3b;
+}
+
+
+.num_questions {
+    font-size: 100px;
+    color: white;
+    font-family: Roboto;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+
+.home_button {
+    width: 10px;
+    box-sizing: border-box;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: #232323;
+    font-size: 50px;
+    color: white;
+    border: 4px solid;
+    border-color: white;
+    border-radius: 50px;
+    text-transform: uppercase;
+    text-decoration: none;
+
+
+}
+
+/* Styles submit button when hovered over */
+.home_button:hover {
+    background-color: #5e5d5d;
+    cursor: pointer;
+}
+
+/* Styles submit button when clicked */
+.home_button:focus {
+    background-color: #f9f9f9;
+    color: #212121;
+    cursor: pointer;
+
+}

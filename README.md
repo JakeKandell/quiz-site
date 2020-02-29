@@ -1,4 +1,8 @@
-# Demo
+# Quiz-Site
+
+Website built in Django that allows user to create their own quizzes or take quizzes created by others.
+
+## Demo
 
 ### Taking a Quiz
 

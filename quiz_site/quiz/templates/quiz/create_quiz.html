@@ -1,17 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'quiz/create_quiz.css' %}">
+
     <meta charset="UTF-8">
     <title>Create Quiz</title>
+
 </head>
 <body>
-    <h1>Create Quiz</h1>
+    <div class="form_wrapper">
 
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-    <input type="submit" value="Next">
-    </form>
+        <h1 class="form_name">Create Quiz</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="error_text">
+              {{ form.non_field_errors }}
+            </div>
 
+            <div class="quiz_name_wrapper">
+                {{ form.quiz_name.errors }}
+                <label class="quiz_name_label" for="{{ form.quiz_name.id_for_label }}">Quiz Name:  </label>
+                {{ form.quiz_name }}
+            </div>
+
+            <div class="num_questions_wrapper">
+                <div class="error_text">
+                    {{ form.num_questions.errors }}
+                </div>
+
+                <label  class="num_questions_label" for="{{ form.num_questions.id_for_label }}">Number of Questions:  </label>
+                {{ form.num_questions }}
+            </div>
+
+        <input class="submit_button" type="submit" value="Next">
+        </form>
+
+    </div>
 </body>
 </html>

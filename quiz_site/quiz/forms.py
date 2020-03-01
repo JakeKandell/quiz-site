@@ -5,8 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 
 # form to create a new quiz
 class CreateQuizForm(forms.Form):
-    quiz_name = forms.CharField(max_length=50, label="Quiz Name")
-    num_questions = forms.IntegerField(label="Number of Questions")
+    quiz_name = forms.CharField(max_length=50, label="Quiz Name", widget=forms.TextInput(attrs={'class': 'quiz_name_box'}))
+    num_questions = forms.IntegerField(label="Number of Questions", widget=forms.NumberInput(attrs={'class': 'num_questions_box'}))
 
     def clean_name(self):
         data = self.cleaned_data['quiz_name']
@@ -31,19 +31,19 @@ class CreateQuizForm(forms.Form):
 
 # form to create questions with choices for each quiz
 class CreateQuestionForm(forms.Form):
-    question_text = forms.CharField(max_length=300, label="Question Text")
+    question_text = forms.CharField(max_length=300, label="Question Text", widget=forms.TextInput(attrs={'class': 'question_text_box'}))
 
-    choice1_text = forms.CharField(max_length=300, label="Choice 1")
-    choice1_correctness = forms.BooleanField(label="Choice 1 Correct?", required=False)
+    choice1_text = forms.CharField(max_length=300, label="Choice 1", widget=forms.TextInput(attrs={'class': 'choice_box'}))
+    choice1_correctness = forms.BooleanField(label="Choice 1 Correct?", required=False, widget=forms.CheckboxInput(attrs={'class': 'choice_correct_box'}))
 
-    choice2_text = forms.CharField(max_length=300, label="Choice 2")
-    choice2_correctness = forms.BooleanField(label="Choice 2 Correct?", required=False)
+    choice2_text = forms.CharField(max_length=300, label="Choice 2", widget=forms.TextInput(attrs={'class': 'choice_box'}))
+    choice2_correctness = forms.BooleanField(label="Choice 2 Correct?", required=False, widget=forms.CheckboxInput(attrs={'class': 'choice_correct_box'}))
 
-    choice3_text = forms.CharField(max_length=300, label="Choice 3")
-    choice3_correctness = forms.BooleanField(label="Choice 3 Correct?", required=False)
+    choice3_text = forms.CharField(max_length=300, label="Choice 3", widget=forms.TextInput(attrs={'class': 'choice_box'}))
+    choice3_correctness = forms.BooleanField(label="Choice 3 Correct?", required=False, widget=forms.CheckboxInput(attrs={'class': 'choice_correct_box'}))
 
-    choice4_text = forms.CharField(max_length=300, label="Choice 4")
-    choice4_correctness = forms.BooleanField(label="Choice 4 Correct?", required=False)
+    choice4_text = forms.CharField(max_length=300, label="Choice 4", widget=forms.TextInput(attrs={'class': 'choice_box'}))
+    choice4_correctness = forms.BooleanField(label="Choice 4 Correct?", required=False, widget=forms.CheckboxInput(attrs={'class': 'choice_correct_box'}))
 
     # makes sure that exactly one answer is selected to be true
     def clean(self):

@@ -1,0 +1,114 @@
+/* background for whole page */
+body {
+  background-color: #181818;
+}
+
+.form_wrapper {
+    text-align: center;
+    margin-left: 450px;
+    margin-right: 450px;
+    margin-top: 125px;
+    background-color: #232323;
+    border-radius: 60px;
+    border: 10px solid #fff;
+    padding-bottom: 75px;
+}
+
+.form_name {
+    color: white;
+    font-family: Roboto;
+    font-size: 100px;
+}
+
+.error_text {
+    font-size: 30px;
+    color: #f39190;
+}
+
+.quiz_name_wrapper {
+    margin-bottom: 35px;
+}
+
+
+.quiz_name_label {
+    color: white;
+    font-size: 40px;
+    font-family: Roboto;
+
+}
+
+.quiz_name_box {
+    color: white;
+    font-family: Roboto;
+    background-color: #232323;
+    font-size: 40px;
+    width: 500px;
+    border: 2px solid white;
+    padding-left: 10px;
+    border-radius: 20px;
+
+}
+
+.quiz_name_box:hover {
+    border: 2px solid #61bf8a;
+}
+
+.quiz_name_box:focus {
+    background-color: #171717;
+}
+
+.num_questions_label {
+    color: white;
+    font-size: 40px;
+    font-family: Roboto;
+
+}
+
+.num_questions_box {
+    color: white;
+    font-family: Roboto;
+    background-color: #232323;
+    font-size: 40px;
+    width: 295px;
+    border: 2px solid white;
+    border-radius: 20px;
+    padding-left: 10px;
+
+
+}
+
+.num_questions_box:hover {
+    border: 2px solid #61bf8a;
+}
+
+.num_questions_box:focus {
+    background-color: #171717;
+}
+
+
+/* Styles submit button */
+.submit_button {
+    margin-top: 60px;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: #61bf8a;
+    font-size: 50px;
+    color: white;
+    border: 0px solid;
+    border-color: white;
+    border-radius: 50px;
+    text-transform: uppercase;
+}
+
+/* Styles submit button when hovered over */
+.submit_button:hover {
+    background-color: #2d9058;
+    cursor: pointer;
+}
+
+/* Styles submit button when clicked */
+.submit_button:focus {
+    background-color: #f9f9f9;
+    color: #212121;
+
+}

@@ -24,6 +24,15 @@ def single_quiz(request, quiz_id):
     quiz = get_object_or_404(Quiz, pk=quiz_id)
     num_questions = len(quiz.question_set.all())
 
+    # deletes quiz and returns to home if no questions created
+    if num_questions == 0:
+        quiz.delete()
+        all_quiz_list = Quiz.objects.all()
+        context = {
+            'all_quiz_list': all_quiz_list,
+        }
+        return render(request, 'quiz/index.html', context)
+
     quiz.num_questions = num_questions
     quiz.save()
 

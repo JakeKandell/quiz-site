@@ -1,17 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'quiz/create_question.css' %}">
+
     <meta charset="UTF-8">
     <title>Create Question</title>
+
 </head>
 <body>
-    <h1>Create Question {{ question_num }}</h1>
 
-    <form action="" method="post">
-        {% csrf_token %}
-        {{form.as_p}}
-    <input type="submit" value={{ next_submit }}>
-    </form>
+
+
+    <div class="form_wrapper">
+
+        <h1 class="form_name">Create Question {{ question_num }}</h1>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="error_text">
+                {{ form.non_field_errors }}
+            </div>
+
+            <div class="question_text_wrapper">
+                {{ form.question_text.errors }}
+                <label class="question_text_label" for="{{ form.question_text.id_for_label }}">Question Text:  </label>
+                {{ form.question_text }}
+            </div>
+
+            <div class="choice1">
+
+                <div class="choice_text_wrapper">
+                    {{ form.choice1_text.errors }}
+                    <label class="choice_label" for="{{ form.choice1_text.id_for_label }}">Choice 1:  </label>
+                    {{ form.choice1_text }}
+                </div>
+
+                <div class="choice_correct_wrapper">
+                    {{ form.choice1_correctness.errors }}
+                    <label class="choice1_correct_label" for="{{ form.choice1_text.id_for_label }}"></label>
+                    {{ form.choice1_correctness }}
+
+                </div>
+
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="choice2">
+
+                <div class="choice_text_wrapper">
+                    {{ form.choice2_text.errors }}
+                    <label class="choice_label" for="{{ form.choice2_text.id_for_label }}">Choice 2:  </label>
+                    {{ form.choice2_text }}
+                </div>
+
+                <div class="choice_correct_wrapper">
+                    {{ form.choice2_correctness.errors }}
+                    <label class="choice2_correct_label" for="{{ form.choice2_text.id_for_label }}"></label>
+                    {{ form.choice2_correctness }}
+                </div>
+
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="choice3">
+
+                <div class="choice_text_wrapper">
+                    {{ form.choice3_text.errors }}
+                    <label class="choice_label" for="{{ form.choice3_text.id_for_label }}">Choice 3:  </label>
+                    {{ form.choice3_text }}
+                </div>
+
+                <div class="choice_correct_wrapper">
+                    {{ form.choice3_correctness.errors }}
+                    <label class="choice3_correct_label" for="{{ form.choice3_correctness.id_for_label }}"></label>
+                    {{ form.choice3_correctness }}
+                </div>
+
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="choice4">
+
+                <div class="choice_text_wrapper">
+                    {{ form.choice4_text.errors }}
+                    <label class="choice_label" for="{{ form.choice4_text.id_for_label }}">Choice 4:  </label>
+                    {{ form.choice4_text }}
+                </div>
+
+                <div class="choice_correct_wrapper">
+                    {{ form.choice4_correctness.errors }}
+                    <label class="choice4_correct_label" for="{{ form.choice4_correctness.id_for_label }}"></label>
+                    {{ form.choice4_correctness }}
+                </div>
+
+            </div>
+
+            <div class="clear"></div>
+
+        <input class="submit_button" type="submit" value={{ next_submit }}>
+        </form>
+
+    </div>
+
+
+
+
 
 </body>
 
